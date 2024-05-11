@@ -1,7 +1,7 @@
 # gsIndexer
 
 ## Installation
-1. Download the latest release from
+1. Download the latest release from https://github.com/ResolutionBlue/gsIndexer/releases
 2. Extract `gsIndexer-x64.zip`
 3. Launch `gsIndexer`
 
