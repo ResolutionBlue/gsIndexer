@@ -1,9 +1,9 @@
 # gsIndexer
 
 ## Installation
-1. Download the latest release from
+1. Download the latest release from https://github.com/ResolutionBlue/gsIndexer/releases
 2. Extract `gsIndexer-x64.zip`
-3. Launch `gsIndexer`
+3. Launch `gsIndexer.exe`
 
 ## Features
 - Feature 1: Links to the game to add useful features.
@@ -27,3 +27,4 @@
 ## License
 gsIndexer is distributed under the MIT license, which you can view in detail in the [LICENSE file](LICENSE).
 If you publish your mod, with the program inside, your mod also needs to be under the MIT license.
+It is recommended to exclude the program being inside of your mod.

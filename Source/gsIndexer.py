@@ -142,6 +142,7 @@ def write_gs_file(folder_path, script_path):
         invalid_folders = []
         # Locate every file inside of the mod path and write a line
         with open(output_file_path, 'w') as f:
+            f.write('#playerscript\n')
             for dirpath, dirnames, filenames in os.walk(folder_path):
                 for filename in filenames:
                     # Make sure that the file is not one of the mod's used assets
