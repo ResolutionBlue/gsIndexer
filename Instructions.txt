@@ -1,0 +1,53 @@
+		             _____           _                    
+		            |_   _|         | |                   
+		    __ _ ___  | |  _ __   __| | _____  _____ _ __ 
+		   / _` / __| | | | '_ \ / _` |/ _ \ \/ / _ \ '__|
+		  | (_| \__ \_| |_| | | | (_| |  __/>  <  __/ |   
+		   \__, |___/_____|_| |_|\__,_|\___/_/\_\___|_|   
+		    __/ |                                         
+		   |___/                                          
+		v1.0.0
+
+----------------------------------------------------------------------------------
+
+For more detailed information: "https://steamcommunity.com/sharedfiles/filedetails/?id=3243845308"
+
+To start indexing your mod, you must first format it correctly. Instead of 
+traditionally using paths like "MOD\textures\test.png" or "MOD\sounds\test.ogg", 
+you should format them in context with the game's file paths 
+(e.g., "GFX\map\dimension1499\1499object0_lm1.png").
+
+Once you've properly formatted your mod, open .gsIndexer and choose between 
+"Automatic mod folder path detection" and "Enter folder path manually". It is 
+recommended to use the automatic option. 
+
+If you choose "Automatic mod folder path detection", it will show a list of folders.
+You can choose a folder by entering it's number in the list, or by typing in the
+name. 
+
+If you choose "Enter folder path manually", it will ask for the mod folder path.
+If the path you input does not exist or is invalid, the system will not accept 
+the provided path. 
+
+After selecting a mod folder, it will display information about the .gs file.
+
+For example:
+
+	Please confirm this action.
+
+	Mod folder: Mod
+	Quantity of files: 313
+	Approximated .gs size: 27.51 KB
+
+Proceed (y/n)?
+
+After confirming the action, type 'y' into the console to start indexing your 
+.gs file. If the game was installed correctly and there were any folders that were
+not valid paths in context with the game, a warning will be printed detailing which
+folder is not valid. For example, "WARNING: The folder "GAME\GFX\map\to do" does not exist in the
+game's repository."
+
+Finally, navigate to 
+"\SCP Containment Breach Multiplayer\SteamWorkshopUploader\ScriptsCompiler" 
+and compile the .gs file into a .gsc file. Once this is completed, place the 
+.gsc file into your mod folder, and you're done!
