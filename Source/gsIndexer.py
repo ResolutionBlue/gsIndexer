@@ -111,6 +111,9 @@ def get_existing_path(prompt: str) -> str:
         print('    File path does not exist.')
 
 def get_mod_folder() -> str:
+    if not scp_path:
+        print(colored('\n    WARNING: SCP:CBM must be installed.', 'yellow'))
+        return None
     mod_folder = os.path.join(scp_path, 'SteamWorkshopUploader', 'WorkshopContent')
     folders = [name for name in os.listdir(mod_folder) if os.path.isdir(os.path.join(mod_folder, name))]
     if not folders:
@@ -131,6 +134,8 @@ def receive_idexing_directions() -> None:
     print('\n    Please choose an option:\n\n    1. Automatic mod folder path detection\n    2. Enter folder path manually')
     choice = get_choice('\nEnter your choice (1 or 2): ', ['1', '2'])
     folder_path = get_mod_folder() if choice == '1' else get_existing_path('\nEnter your mod folder path: ')
+    if not folder_path:
+        return receive_idexing_directions()
 
     file_info = get_file_info(folder_path)
     print(f''' 
