@@ -1,12 +1,6 @@
 import os
-import sys
 import vdf
-
-def get_parent_path(): # Get the scripts file path
-    if getattr(sys, 'frozen', False):
-        return os.path.dirname(sys.executable)
-    else:
-        return os.path.dirname(os.path.realpath(__file__))
+from settings_manager import change_setting, read_setting_value
 
 def check_if_scp_path_is_valid(file_path):
     file_path = os.path.abspath(file_path)
@@ -17,22 +11,16 @@ def check_if_scp_path_is_valid(file_path):
     else:
         return 2
 def find_scp_cbm(): # Find the path of SCP:CB Multiplayer
-    value_name = 'SCP:CBMultiplayerPath='
+    value_name = 'SCP:CB_Multiplayer_Path'
 
-    file_name = os.path.join(get_parent_path(), 'settings.ini')
     path_is_valid = False
     scp_path = None
 
-    # Check if the file exists
-    if os.path.exists(file_name):
-        # If the file exists, read the path from the file
-        with open(file_name, 'r') as file:
-            file_content = file.read()
-            if file_content.startswith(value_name):
-                file_scp_path = file_content.replace(value_name, '')
-                valid_folder = check_if_scp_path_is_valid(file_scp_path)
-                if valid_folder == 2:
-                    return file_scp_path
+    file_scp_path = read_setting_value(value_name)
+    if file_scp_path is not None:
+        valid_folder = check_if_scp_path_is_valid(file_scp_path)
+        if valid_folder == 2:
+            return file_scp_path
     try:
         # If the file doesn't exist, attempt to find the path
         possible_paths = [
@@ -83,8 +71,7 @@ def find_scp_cbm(): # Find the path of SCP:CB Multiplayer
                     break
 
         if path_is_valid:
-            with open(file_name, 'w') as file:
-                file.write(value_name + scp_path)
+            change_setting(value_name, scp_path)
         else:
             print('It is reccomended to have the game installed whilst using gsIndexer.')
 

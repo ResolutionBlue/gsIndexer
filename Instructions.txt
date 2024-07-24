@@ -6,7 +6,7 @@
 		   \__, |___/_____|_| |_|\__,_|\___/_/\_\___|_|   
 		    __/ |                                         
 		   |___/                                          
-		v1.1.2
+		v1.2.0
 
 ----------------------------------------------------------------------------------
 
@@ -17,7 +17,7 @@ traditionally using paths like "MOD\textures\test.png" or "MOD\sounds\test.ogg",
 you should format them in context with the game's file paths 
 (e.g., "GFX\map\dimension1499\1499object0_lm1.png").
 
-Once you've properly formatted your mod, open .gsIndexer and choose between 
+Once you've properly formatted your mod, open gsIndexer and choose between 
 "Automatic mod folder path detection" and "Enter folder path manually". It is 
 recommended to use the automatic option. 
 

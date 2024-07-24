@@ -1,12 +1,24 @@
 import os
-from game_finder import find_scp_cbm, get_parent_path # type: ignore
+import settings_manager
+from game_finder import find_scp_cbm
 from termcolor import colored
 os.system('color')
 
-# Constants
-FILE_CAP: int = 10000
+def get_file_info_cap():
+    setting_name = 'File_Info_Cap'
+    file_value = None
+    try:
+        file_value = int(settings_manager.read_setting_value(setting_name))
+    finally:
+        if file_value is None:
+            default = 10000 # Defalut File_Info_Cap
+
+            settings_manager.change_setting(setting_name, default)
+            return default
+        return file_value
 
 # Global Variables
+file_info_cap: int = get_file_info_cap()
 scp_path: str = find_scp_cbm()
 
 def get_nonexisting_folders(path: str, scp_path: str) -> str:
@@ -60,7 +72,7 @@ def get_file_info(start_path: str):
     cap_num = False
     cap_size = False
 
-    size_cap = FILE_CAP * 1024
+    size_cap = file_info_cap * 1024
     for dirpath, dirnames, filenames in os.walk(start_path):
         if cap_num and cap_size:
             break
@@ -73,10 +85,10 @@ def get_file_info(start_path: str):
             if not filename.endswith(('.gsc', '.gs')):
                 # Check if the value is not over the file cap
                 if not cap_num:
-                    if file_info[0] < FILE_CAP:
+                    if file_info[0] < file_info_cap:
                         file_info[0] += 1
                     else:
-                        file_info[0] = f'{FILE_CAP - 1}+'
+                        file_info[0] = f'{file_info_cap - 1}+'
                         cap_num = True
 
                 # Check if the value is not over the file cap
@@ -88,7 +100,7 @@ def get_file_info(start_path: str):
                     if file_info[1] + file_size < size_cap:
                         file_info[1] += file_size
                     else:
-                        file_info[1] = f'{FILE_CAP - 1}+'
+                        file_info[1] = f'{file_info_cap - 1}+'
                         cap_size = True
 
     if not cap_size:
@@ -101,7 +113,7 @@ def get_choice(prompt: str, options) -> str:
         choice = input(prompt).lower()
         if choice in options:
             return choice
-        print(f'    Invalid choice. Please enter one of {options}.')
+        print(f'    Invalid choice. Please enter ({"/".join(options)}).')
 
 def get_existing_path(prompt: str) -> str:
     while True:
@@ -119,7 +131,7 @@ def get_mod_folder() -> str:
     if not folders:
         print('    No mod folders detected inside of "WorkshopContent".')
         return None
-    prompt = f'\nPlease choose a folder\n    {folders}\nEnter (1, 2, 3...) or the name of the folder: '
+    prompt = f'\nPlease choose a folder\n    {tuple(folders)}\nEnter (1, 2, 3...) or the name of the folder: '
     while True:
         choice = input(prompt)
         folder = choice if not choice.isdigit() else folders[max(1, min(int(choice), len(folders))) - 1]
@@ -129,10 +141,10 @@ def get_mod_folder() -> str:
         print('    Invalid choice.')
 
 def receive_idexing_directions() -> None:
-    parent_path = get_parent_path()
+    parent_path = settings_manager.get_parent_path()
 
     print('\n    Please choose an option:\n\n    1. Automatic mod folder path detection\n    2. Enter folder path manually')
-    choice = get_choice('\nEnter your choice (1 or 2): ', ['1', '2'])
+    choice = get_choice('\nEnter your choice (1/2): ', ['1', '2'])
     folder_path = get_mod_folder() if choice == '1' else get_existing_path('\nEnter your mod folder path: ')
     if not folder_path:
         return receive_idexing_directions()
