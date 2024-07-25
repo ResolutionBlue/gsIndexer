@@ -40,9 +40,23 @@ def change_setting(setting_name, setting_value) -> None: # Add a new setting to 
         file.write(setting_value_to_set)
         return
 
-def read_setting_value(setting_name) -> str: # Read a value from settings.ini
+def read_setting_value(setting_name, default): # Read a value from settings.ini
+    expected_type = type(default)
+
     with open(FILE_NAME, 'r') as file:
         for line in file:
             if line.startswith(setting_name):
-                return line.replace(setting_name + '=', '').strip()
-    return None
+                setting_string = line.replace(setting_name + '=', '').strip()
+                try:
+                    if expected_type == bool:
+                        if setting_string.lower() in ["true", "false"]:
+                            return setting_string.lower() == "true"
+                        else:
+                            break
+                    setting_value = expected_type(setting_string)
+
+                    return setting_value
+                except:
+                    print("Not correct type.")
+                    break
+    change_setting(setting_name, default)

@@ -6,7 +6,7 @@
 		   \__, |___/_____|_| |_|\__,_|\___/_/\_\___|_|   
 		    __/ |                                         
 		   |___/                                          
-		v1.2.0
+		v1.3.0
 
 ----------------------------------------------------------------------------------
 
@@ -47,7 +47,5 @@ not valid paths in context with the game, a warning will be printed detailing wh
 folder is not valid. For example, "WARNING: The folder "GAME\GFX\map\to do" does not exist in the
 game's repository."
 
-Finally, navigate to 
-"\SCP Containment Breach Multiplayer\SteamWorkshopUploader\ScriptsCompiler" 
-and compile the .gs file into a .gsc file. Once this is completed, place the 
-.gsc file into your mod folder, and you're done!
+Finally, it will ask if you want to compile you .gs file into a .gsc file. Type 'y'
+into the console to output the .gsc file. (This only works if the game is installed)

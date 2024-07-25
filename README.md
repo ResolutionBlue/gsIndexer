@@ -12,6 +12,7 @@
 - Feature 4: Manual option to pick your mod folder.
 - Feature 5: Provides information about the folder name, quantity of files, and the .gs file size before indexing.
 - Feature 6: Gives warnings if a folder does not exist in the games repository.
+- Feature 7: Automatically compiles the `.gs` into a `.gsc`.
 
 ## Usage
 `gsIndexer` is a standalone tool designed to automate the process of creating .gs files for SCP Containment Breach Multiplayer, particularly useful for large mods. Here's how you can use it:
@@ -22,9 +23,11 @@
 
 3. **Indexing**: After selecting the mod folder, `gsIndexer` will provide information about the folder name, quantity of files, and the .gs file size before indexing. Confirm to proceed with the indexing.
 
-4. **Warnings**: During the indexing process, `gsIndexer` will give warnings if a folder does not exist in the game's repository.
+4. **Warnings**: During the indexing process, as long as `SCP: Containment Breach Multiplayer` is installed, `gsIndexer` will give warnings if a folder does not exist in the game's repository.
+
+5. **Compiling**: If `SCP: Containment Breach Multiplayer` is installed, `gsIndexer` can automatically compile the `.gs` file into a `.gsc` file, so that you're ready for publishing.
 
 ## License
-gsIndexer is distributed under the MIT license, which you can view in detail in the [LICENSE file](LICENSE).
-If you publish your mod, with the program inside, your mod also needs to be under the MIT license.
-It is recommended to exclude the program being inside of your mod.
+`gsIndexer` is distributed under the MIT license, which you can view in detail in the [LICENSE file](LICENSE).
+If you publish your mod, with the program inside, your mod also needs to be distributed under the MIT license.
+It is recommended to exclude the program from being inside of your mod.

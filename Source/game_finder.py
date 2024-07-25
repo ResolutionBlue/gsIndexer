@@ -16,7 +16,7 @@ def find_scp_cbm(): # Find the path of SCP:CB Multiplayer
     path_is_valid = False
     scp_path = None
 
-    file_scp_path = read_setting_value(value_name)
+    file_scp_path = read_setting_value(value_name, '')
     if file_scp_path is not None:
         valid_folder = check_if_scp_path_is_valid(file_scp_path)
         if valid_folder == 2:

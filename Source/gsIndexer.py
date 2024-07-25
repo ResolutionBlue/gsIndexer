@@ -1,24 +1,14 @@
 import os
+import subprocess
 import settings_manager
 from game_finder import find_scp_cbm
 from termcolor import colored
 os.system('color')
 
-def get_file_info_cap():
-    setting_name = 'File_Info_Cap'
-    file_value = None
-    try:
-        file_value = int(settings_manager.read_setting_value(setting_name))
-    finally:
-        if file_value is None:
-            default = 10000 # Defalut File_Info_Cap
-
-            settings_manager.change_setting(setting_name, default)
-            return default
-        return file_value
-
 # Global Variables
-file_info_cap: int = get_file_info_cap()
+file_info_cap: int = settings_manager.read_setting_value('File_Info_Cap', 10000)
+file_auto_compile: bool = settings_manager.read_setting_value('Auto_Compile_Into_gsc', False)
+file_show_info: bool = settings_manager.read_setting_value('Show_File_Info', True)
 scp_path: str = find_scp_cbm()
 
 def get_nonexisting_folders(path: str, scp_path: str) -> str:
@@ -34,6 +24,31 @@ def get_nonexisting_folders(path: str, scp_path: str) -> str:
             return os.path.relpath(joined_path, scp_path)
 
     return None
+
+def compile_into_gsc(gs_file: str) -> None: # Run compiler.exe to compile .gs into .gsc
+    if not scp_path:
+        print(colored('\n    WARNING: SCP:CBM must be installed.', 'yellow'))
+        return None
+    
+    compiler = os.path.join(scp_path, 'SteamWorkshopUploader/ScriptsCompiler/compiler.exe')
+
+    with open('compilersettings.ini', 'w') as file:
+        file.write(f'compile {gs_file}\nexit')
+
+    startupinfo = subprocess.STARTUPINFO()
+    startupinfo.dwFlags |= subprocess.STARTF_USESHOWWINDOW
+
+    # Run compiler.exe
+    with subprocess.Popen([compiler], startupinfo=startupinfo, stdout=subprocess.PIPE, stderr=subprocess.PIPE) as process:
+        output, error = process.communicate()
+
+    # Check for errors
+    if process.returncode != 0:
+        print(colored(f"\n    ERROR: {error.decode()}", 'red'))
+    else:
+        print("\n    Successfully Compiled!")
+
+    os.remove('compilersettings.ini')
 
 def write_gs_file(folder_path: str, parent_path: str) -> None:
     try:
@@ -63,6 +78,8 @@ def write_gs_file(folder_path: str, parent_path: str) -> None:
                 f.write('\n'.join(output_lines))
             print('\n    Indexing Complete!')
 
+            if file_auto_compile or get_choice('\n    Compile into .gsc (y/n)? ', ['y', 'n']) == 'y':
+                compile_into_gsc(output_file_path)
     except Exception as e:
         print(colored(f'\n    ERROR: {str(e)}\n', 'red'))
 
@@ -149,20 +166,22 @@ def receive_idexing_directions() -> None:
     if not folder_path:
         return receive_idexing_directions()
 
-    file_info = get_file_info(folder_path)
-    print(f''' 
-    Please confirm this action.
-          
-    Mod folder: {os.path.basename(folder_path)}
-    Quantity of files: {file_info[0]}
-    Approximated .gs size: {file_info[1]} KB''')
-    
-    if get_choice('\nProceed (y/n)? ', ['y', 'n']) == 'y':
+    if file_show_info:   
+        file_info = get_file_info(folder_path)
+        print(f''' 
+        Please confirm this action.
+            
+        Mod folder: {os.path.basename(folder_path)}
+        Quantity of files: {file_info[0]}
+        Approximated .gs size: {file_info[1]} KB''')
+        
+        if get_choice('\nProceed (y/n)? ', ['y', 'n']) == 'y':
+            write_gs_file(folder_path, parent_path)
+    else:
         write_gs_file(folder_path, parent_path)
 
     if get_choice('\nIndex another .gs (y/n)? ', ['y', 'n']) == 'y':
         return receive_idexing_directions()
-
 
 # Usage
 receive_idexing_directions()
