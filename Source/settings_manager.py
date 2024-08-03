@@ -11,7 +11,7 @@ def get_parent_path() -> str: # Get the scripts file path
 FILE_NAME = os.path.join(get_parent_path(), 'settings.ini')
 open(FILE_NAME, 'a')
 
-def change_setting(setting_name, setting_value) -> None: # Add a new setting to settings.ini
+def change_setting(setting_name: str, setting_value) -> None: # Add a new setting to settings.ini
     setting_line = None
     setting_value_to_set = f'{setting_name}={setting_value}\n'
 
@@ -40,7 +40,7 @@ def change_setting(setting_name, setting_value) -> None: # Add a new setting to 
         file.write(setting_value_to_set)
         return
 
-def read_setting_value(setting_name, default): # Read a value from settings.ini
+def read_setting_value(setting_name: str, default) -> any: # Read a value from settings.ini
     expected_type = type(default)
 
     with open(FILE_NAME, 'r') as file:
@@ -57,6 +57,5 @@ def read_setting_value(setting_name, default): # Read a value from settings.ini
 
                     return setting_value
                 except:
-                    print("Not correct type.")
                     break
     change_setting(setting_name, default)

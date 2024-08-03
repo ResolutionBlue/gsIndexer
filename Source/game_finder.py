@@ -1,6 +1,7 @@
 import os
 import vdf
 from settings_manager import change_setting, read_setting_value
+from translation_handler import translate as t
 
 def check_if_scp_path_is_valid(file_path):
     file_path = os.path.abspath(file_path)
@@ -50,12 +51,10 @@ def find_scp_cbm(): # Find the path of SCP:CB Multiplayer
         user_scp_path = None
         if not scp_path or not os.path.exists(scp_path):
             messages = {
-                0: '''File path does not exist.
-                ''',
-                1: '''File path is not the game.
-                '''
+                0: t('path does not exist')+'\n',
+                1: t('path is not the game')+'\n'
             }
-            print("(reply with 'n' if the game is not installed)")
+            print(t('reply if not installed'))
             while not path_is_valid:
                 if user_scp_path:
                     valid_folder = check_if_scp_path_is_valid(user_scp_path)
@@ -64,7 +63,7 @@ def find_scp_cbm(): # Find the path of SCP:CB Multiplayer
                     else:
                         path_is_valid = True
                         break
-                user_scp_path = input('Please enter the path of SCP:CB Multiplayer: ')
+                user_scp_path = input(t('enter scp path'))
                 if user_scp_path.lower() != 'n':
                     scp_path = os.path.abspath(user_scp_path)
                 else:
@@ -73,6 +72,6 @@ def find_scp_cbm(): # Find the path of SCP:CB Multiplayer
         if path_is_valid:
             change_setting(value_name, scp_path)
         else:
-            print('It is reccomended to have the game installed whilst using gsIndexer.')
+            print(t('it is recommended to have the game installed'))
 
         return scp_path if path_is_valid else None

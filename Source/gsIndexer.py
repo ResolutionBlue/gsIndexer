@@ -2,6 +2,7 @@ import os
 import subprocess
 import settings_manager
 from game_finder import find_scp_cbm
+from translation_handler import translate as t
 from termcolor import colored
 os.system('color')
 
@@ -27,7 +28,7 @@ def get_nonexisting_folders(path: str, scp_path: str) -> str:
 
 def compile_into_gsc(gs_file: str) -> None: # Run compiler.exe to compile .gs into .gsc
     if not scp_path:
-        print(colored('\n    WARNING: SCP:CBM must be installed.', 'yellow'))
+        print(colored(f"\n    {t('game must be installed')}", 'yellow'))
         return None
     
     compiler = os.path.join(scp_path, 'SteamWorkshopUploader/ScriptsCompiler/compiler.exe')
@@ -44,9 +45,9 @@ def compile_into_gsc(gs_file: str) -> None: # Run compiler.exe to compile .gs in
 
     # Check for errors
     if process.returncode != 0:
-        print(colored(f"\n    ERROR: {error.decode()}", 'red'))
+        print(colored(f"\n    {t('error')}: {error.decode()}", 'red'))
     else:
-        print("\n    Successfully Compiled!")
+        print(f"\n    {t('successfully compiled')}")
 
     os.remove('compilersettings.ini')
 
@@ -67,21 +68,23 @@ def write_gs_file(folder_path: str, parent_path: str) -> None:
                         folder = get_nonexisting_folders(relative_path, scp_path)
                         if folder:
                             invalid_folders.add(folder)
-                            print(colored(f"\n    WARNING: The folder 'GAME\{folder}' does not exist in the game's repository.", 'yellow'))
+                            game_path_string = f"'SCP:CBM/{folder}'"
+                            warning_message = f"\n    {t('folder does not exist').replace('_', game_path_string)}"
+                            print(colored(warning_message, 'yellow'))
                     output_lines.append(f'RedirectFile("{relative_path}", getscriptpath()+"\{relative_path}")')
 
         if len(output_lines) == 1:
-            print(colored('\n    WARNING: No data was written to the file.', 'yellow'))
+            print(colored(f"\n    {t('no data written')}", 'yellow'))
         else:
             # Writes all of the found files to a .gs file
             with open(output_file_path, 'w') as f:
                 f.write('\n'.join(output_lines))
-            print('\n    Indexing Complete!')
+            print(f"\n    {t('indexing complete')}")
 
-            if file_auto_compile or get_choice('\n    Compile into .gsc (y/n)? ', ['y', 'n']) == 'y':
+            if file_auto_compile or get_choice(f"\n    {t('compile into gsc')} ", [t('y'), t('n')]) == t('y'):
                 compile_into_gsc(output_file_path)
     except Exception as e:
-        print(colored(f'\n    ERROR: {str(e)}\n', 'red'))
+        print(colored(f"\n    {t('error')}: {str(e)}\n", 'red'))
 
 def get_file_info(start_path: str):
     # Get indexing information
@@ -130,57 +133,57 @@ def get_choice(prompt: str, options) -> str:
         choice = input(prompt).lower()
         if choice in options:
             return choice
-        print(f'    Invalid choice. Please enter ({"/".join(options)}).')
+        print(f"    {t('invalid choice enter')} ({'/'.join(options)}).")
 
 def get_existing_path(prompt: str) -> str:
     while True:
         path = os.path.abspath(input(prompt))
         if os.path.exists(path):
             return path
-        print('    File path does not exist.')
+        print(f"    {t('path does not exist')}")
 
 def get_mod_folder() -> str:
     if not scp_path:
-        print(colored('\n    WARNING: SCP:CBM must be installed.', 'yellow'))
+        print(colored(t('game must be installed'), 'yellow'))
         return None
     mod_folder = os.path.join(scp_path, 'SteamWorkshopUploader', 'WorkshopContent')
     folders = [name for name in os.listdir(mod_folder) if os.path.isdir(os.path.join(mod_folder, name))]
     if not folders:
-        print('    No mod folders detected inside of "WorkshopContent".')
+        print(t('no folders in workshopcontent'))
         return None
-    prompt = f'\nPlease choose a folder\n    {tuple(folders)}\nEnter (1, 2, 3...) or the name of the folder: '
+    prompt = f"\n{t('please choose a folder')}\n    {tuple(folders)}\n{t('enter x or y')} "
     while True:
         choice = input(prompt)
         folder = choice if not choice.isdigit() else folders[max(1, min(int(choice), len(folders))) - 1]
         folder_path = os.path.join(mod_folder, folder)
         if os.path.exists(folder_path):
             return folder_path
-        print('    Invalid choice.')
+        print(t('invalid choice'))
 
 def receive_idexing_directions() -> None:
     parent_path = settings_manager.get_parent_path()
 
-    print('\n    Please choose an option:\n\n    1. Automatic mod folder path detection\n    2. Enter folder path manually')
-    choice = get_choice('\nEnter your choice (1/2): ', ['1', '2'])
-    folder_path = get_mod_folder() if choice == '1' else get_existing_path('\nEnter your mod folder path: ')
+    print(f"\n    {t('please choose an option')}\n\n    {t('automatic option')}\n    {t('manual option')}")
+    choice = get_choice(f"\n{t('enter number choice')} ", ['1', '2'])
+    folder_path = get_mod_folder() if choice == '1' else get_existing_path(f"\n{t('enter folder path')} ")
     if not folder_path:
         return receive_idexing_directions()
 
     if file_show_info:   
         file_info = get_file_info(folder_path)
-        print(f''' 
-        Please confirm this action.
+        print(f""" 
+        {t('please confirm this action')}
             
-        Mod folder: {os.path.basename(folder_path)}
-        Quantity of files: {file_info[0]}
-        Approximated .gs size: {file_info[1]} KB''')
+        {t('mod folder')} {os.path.basename(folder_path)}
+        {t('quantity of files')} {file_info[0]}
+        {t('gs size')} {file_info[1]} {t('kb')}""")
         
-        if get_choice('\nProceed (y/n)? ', ['y', 'n']) == 'y':
+        if get_choice(f"\n{t('proceed')} ", [t('y'), t('n')]) == t('y'):
             write_gs_file(folder_path, parent_path)
     else:
         write_gs_file(folder_path, parent_path)
 
-    if get_choice('\nIndex another .gs (y/n)? ', ['y', 'n']) == 'y':
+    if get_choice(f"\n{t('index another gs')} ", [t('y'), t('n')]) == t('y'):
         return receive_idexing_directions()
 
 # Usage

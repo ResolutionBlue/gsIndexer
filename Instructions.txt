@@ -6,9 +6,11 @@
 		   \__, |___/_____|_| |_|\__,_|\___/_/\_\___|_|   
 		    __/ |                                         
 		   |___/                                          
-		v1.3.0
+		v1.4.0
 
 ----------------------------------------------------------------------------------
+
+Информация на русском языке: "https://steamcommunity.com/sharedfiles/filedetails/?id=3301244804"
 
 For more detailed information: "https://steamcommunity.com/sharedfiles/filedetails/?id=3243845308"
 
