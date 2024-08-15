@@ -1,8 +1,10 @@
 import os
+import sys
 import subprocess
 import settings_manager
 from game_finder import find_scp_cbm
 from translation_handler import translate as t
+sys.path.append(os.path.join(settings_manager.get_parent_path(), 'libs'))
 from termcolor import colored
 os.system('color')
 

@@ -1,7 +1,9 @@
 import os
-import vdf
-from settings_manager import change_setting, read_setting_value
+import sys
+import settings_manager
 from translation_handler import translate as t
+sys.path.append(os.path.join(settings_manager.get_parent_path(), 'libs'))
+import vdf
 
 def check_if_scp_path_is_valid(file_path):
     file_path = os.path.abspath(file_path)
@@ -17,7 +19,7 @@ def find_scp_cbm(): # Find the path of SCP:CB Multiplayer
     path_is_valid = False
     scp_path = None
 
-    file_scp_path = read_setting_value(value_name, '')
+    file_scp_path = settings_manager.read_setting_value(value_name, '')
     if file_scp_path is not None:
         valid_folder = check_if_scp_path_is_valid(file_scp_path)
         if valid_folder == 2:
@@ -70,7 +72,7 @@ def find_scp_cbm(): # Find the path of SCP:CB Multiplayer
                     break
 
         if path_is_valid:
-            change_setting(value_name, scp_path)
+            settings_manager.change_setting(value_name, scp_path)
         else:
             print(t('it is recommended to have the game installed'))
 

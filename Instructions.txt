@@ -6,7 +6,7 @@
 		   \__, |___/_____|_| |_|\__,_|\___/_/\_\___|_|   
 		    __/ |                                         
 		   |___/                                          
-		v1.4.0
+		v1.4.1
 
 ----------------------------------------------------------------------------------
 
@@ -49,5 +49,5 @@ not valid paths in context with the game, a warning will be printed detailing wh
 folder is not valid. For example, "WARNING: The folder "GAME\GFX\map\to do" does not exist in the
 game's repository."
 
-Finally, it will ask if you want to compile you .gs file into a .gsc file. Type 'y'
+Finally, it will ask if you want to compile your .gs file into a .gsc file. Type 'y'
 into the console to output the .gsc file. (This only works if the game is installed)

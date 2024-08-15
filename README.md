@@ -17,7 +17,7 @@
 - Feature 7: Automatically compiles the .gs file into a .gsc file.
 
 ## Usage
-`gsIndexer` is a standalone tool designed to automate the process of creating .gs files for SCP Containment Breach Multiplayer, particularly useful for large mods. Here's how you can use it:
+`gsIndexer` is a standalone tool designed to automate the process of creating .gs files for `SCP: Containment Breach Multiplayer`, particularly useful for large mods. Here's how you can use it:
 
 1. **Launch the tool**: Open `gsIndexer.exe`.
 
