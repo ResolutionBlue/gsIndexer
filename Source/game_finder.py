@@ -66,7 +66,7 @@ def find_scp_cbm(): # Find the path of SCP:CB Multiplayer
                         path_is_valid = True
                         break
                 user_scp_path = input(t('enter scp path'))
-                if user_scp_path.lower() != 'n':
+                if user_scp_path.lower() != t('n'):
                     scp_path = os.path.abspath(user_scp_path)
                 else:
                     break

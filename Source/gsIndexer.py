@@ -9,7 +9,7 @@ from termcolor import colored
 os.system('color')
 
 # Global Variables
-file_info_cap: int = settings_manager.read_setting_value('File_Info_Cap', 10000)
+file_info_cap: int = settings_manager.read_setting_value('File_Info_Cap', 7000)
 file_auto_compile: bool = settings_manager.read_setting_value('Auto_Compile_Into_gsc', False)
 file_show_info: bool = settings_manager.read_setting_value('Show_File_Info', True)
 scp_path: str = find_scp_cbm()

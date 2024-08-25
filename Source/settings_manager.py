@@ -59,3 +59,4 @@ def read_setting_value(setting_name: str, default) -> any: # Read a value from s
                 except:
                     break
     change_setting(setting_name, default)
+    return default
