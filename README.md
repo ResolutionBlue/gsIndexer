@@ -31,5 +31,3 @@
 
 ## License
 `gsIndexer` is distributed under the MIT license, which you can view in detail in the [LICENSE file](LICENSE).
-If you publish your mod, with the program inside, your mod also needs to be distributed under the MIT license.
-It is recommended to exclude the program from being inside of your mod.
